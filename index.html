@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+		canvas{
+			margin:10%;
+		}
+		</style>
+	</head>
+<body>
+<!--style="border:1px solid #d3d3d3;"
+screen.height;
+screen.width;
+-->
+<canvas id="myCanvas">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+
+
+var pirminis = true;
+var perstumimas = 20;
+var perstumimasGlobal = 3*perstumimas;
+
+
+var body = document.getElementsByTagName('body')[0];
+var canvas = document.getElementById("myCanvas");
+body.width = screen.width;
+body.height = screen.height;
+canvas.width=screen.width/2+perstumimasGlobal;
+canvas.height=screen.height/8;
+
+var plotis = screen.width;
+var aukstis = screen.height;
+var kiekisAtvaizdavimui = 100;
+var min = 1;
+var max = 100;
+
+
+var taskai = [];
+
+for(var i =0; i<10; i++){
+	taskai[i]=Math.floor(Math.random() * (100 - 10 + 10)) + 10;
+}
+
+
+
+
+
+function draw(){
+	var c = document.getElementById("myCanvas").getContext("2d");
+	
+		
+		c.clearRect(0,0,plotis/2+perstumimasGlobal,aukstis/2);
+		c.beginPath();
+		c.font = "10px Arial";
+		//c.strokeStyle = 'red';
+		c.fillText("100",0,7);
+		c.fillText("75",0,32);
+		c.fillText("50",0,57);
+		c.fillText("25",0,82);
+		c.fillText("0",0,107);
+
+		c.moveTo(0+perstumimas,110);
+		c.lineTo(1000+perstumimas,110);
+		c.moveTo(0+perstumimas,0);
+		c.lineTo(0+perstumimas,110);
+		c.moveTo(0+perstumimas,10);
+		c.lineTo(1000+perstumimas,10);
+		c.moveTo(0+perstumimas,35);
+		c.lineTo(1000+perstumimas,35);
+		c.moveTo(0+perstumimas,60);
+		c.lineTo(1000+perstumimas,60);
+		c.moveTo(0+perstumimas,85);
+		c.lineTo(1000+perstumimas,85);
+
+		c.save();
+		c.rotate(Math.PI/2);
+		c.textAlign = "center";
+		if(pirminis == true){
+			for(var h = 0; h<kiekisAtvaizdavimui; h++){
+				c.fillText(h+1,120,-10*h-perstumimas);
+			}
+			
+		}
+		c.restore();
+		if(pirminis==false){
+				c.save();
+				c.rotate(Math.PI/2);
+				c.textAlign = "center";
+				for(var h = 0, minimal = min; minimal<= max; h++, minimal++){
+					c.fillText(minimal,120,-10*h-perstumimas);
+				}
+				c.restore();
+			}
+		var taskuilg = taskai.length;
+		for(var i=0; i<taskuilg; i++){
+
+
+			//nupiesia
+		if(i==0){
+			c.moveTo(0+perstumimas,0);
+			c.lineTo(i*10+perstumimas,taskai[i]);
+		}
+		else{
+			c.moveTo((i-1)*10+perstumimas,taskai[i-1]);
+			c.lineTo(i*10+perstumimas,taskai[i]);
+		}
+
+		// jei cia paskutinis ciklas
+		taskuilg = taskai.length;
+
+
+		if(i+1 == taskuilg){
+			if(i+1==100){
+				pirminis = false;
+				var check, check2;
+				for(var j=0; j<taskai.length; j++){
+					console.log("ciklas");
+					if(j<taskai.length-1){
+						taskai[j]=taskai[j+1];
+						console.log("Pertvarko");
+					}
+					else{
+						taskai[j] = Math.floor(Math.random() * (100 - 10 + 10)) + 10;
+						//console.log("papildomas");
+						//console.log(taskai.length);
+						console.log("Prideda nauja");
+					}
+				}
+			}
+			else{
+			taskai[i+1] = Math.floor(Math.random() * (100 - 10 + 10)) + 10;
+			console.log("dar ner 100");
+			//console.log("papildomas");
+			}
+			min++;
+			max++;
+		}
+		}
+		c.stroke();
+		
+		
+		
+
+}
+setInterval(function(){ window.requestAnimationFrame(draw); }, 100);
+
+/*
+c.save();
+		c.rotate(Math.PI/2);
+		c.textAlign = "center";
+		for(var h = min, temp = 0; h<max; h++, temp++){
+			c.fillText(h,120,-10*temp-perstumimas);
+		}
+		c.restore();*/
+</script> 
+
+</body>
+</html>
+
